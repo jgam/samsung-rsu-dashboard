@@ -2,31 +2,32 @@
 
 - Date: 2026-08-24
 - Repository: samsung-rsu-dashboard
-- Branch/PR: feature/rsu-work-item-12
-- Commit/diff: working tree against `bc2a84b3b678b457d79b29dad5e36c31db9663f0`
+- Branch/PR: feature/rsu-work-item-12 (GitHub PR pending)
+- Commit/diff: working tree against `3b9da2b0ded61cf08c6d3c294c37bba014a9ffcb`
 - Reviewer: Codex
-- Scope: New local-only React RSU demonstration dashboard and test/build configuration.
+- Scope: Local mock-data loader, loading/error states, grant-detail timeline, responsive styles, and adapter test.
 
 ## Check outcomes
 
 | Check | Outcome | Evidence |
 | --- | --- | --- |
-| Correctness and regressions | pass | Totals derive from one local mock-data source; price changes recompute both values. |
-| Maintainability and error handling | pass | Typed data model and pure calculation helpers isolate presentation from future data adapters. |
-| Tests and coverage | pass | 5 deterministic tests; lines, branches, functions, statements all 100%. |
-| KISA secure coding (all seven categories) | pass | No untrusted inputs, auth boundary, network calls, secrets, persistence, or privileged APIs; numeric input is constrained and rendered as a number. |
-| Secret detection (working tree and history) | pass | Pattern scan of source/config and relevant Git history found no credentials. |
-| Test-data privacy | pass | Test data is fictional and contains no identifiers, emails, mobile numbers, payment data, or production dumps (ISMS-P 2.8.4). |
-| Personal-data handling (when applicable) | not-applicable | No personal-data processing, storage, logging, retention, encryption, or external API responses. |
-| Security scan and validation | in-progress | Diff scan `e441e0cc-ab1e-4bf3-929c-cb284d7b9e29` started; final workbench result pending. |
+| Correctness and regressions | pass | The data loader remains local and typed; success, loading, and retryable error paths are explicit. Price-derived values remain pure helper calculations. |
+| Maintainability and error handling | pass | `StockPlanLoader` provides a replaceable boundary; error UI does not expose exception content. |
+| Tests and coverage | pass | 6 deterministic tests; lines, branches, functions, and statements are all 100%. |
+| KISA secure coding (all seven categories) | pass | Input: numeric price is constrained and only rendered; security features: no auth/crypto boundary; time/state: one local promise state transition; errors: generic message; quality: strict TypeScript/build passes; encapsulation: no external data exposure; API misuse: no network or privileged API. |
+| Secret detection (working tree and history) | pass | Regex scans over working tree and `git log -p` found no credentials, private keys, or high-risk token patterns. |
+| Test-data privacy | pass | `src/lib/stockPlan.test.ts` contains fictional aggregate RSU data only; PCRE scan found no phone, RRN, or real-domain email patterns (ISMS-P 2.8.4). |
+| Personal-data handling (when applicable) | not-applicable | The fictional name is mock display content only; no personal data is collected, persisted, logged, transmitted, or returned by an API. |
+| Security scan and validation | blocked | Required diff-scan service rejected two attempts with “Working-tree contents changed after they were selected”; no scan ID or validated findings were produced. |
 
 ## Findings
 
 | ID | Location | Severity | Description | Remediation | Owner | Target date | Re-verification | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| None | — | — | No review finding identified. | — | — | — | `npm run lint && npm run test:coverage && npm run build` | closed |
+| None | — | — | No code-review or ISMS-P finding identified. | — | — | — | `npm run lint && npm run test:coverage && npm run build` | closed |
 
 ## Remaining risks and blockers
 
-- The GitLab design PNG is protected by GitLab authentication and could not be downloaded, so implementation follows the issue specification and an original generated concept rather than a direct pixel comparison.
-- Browser screenshot QA is blocked because no browser binding is available in this runtime.
+- Browser visual QA could not run because the Browser runtime reported no available browser.
+- The Codex Security diff-scan service requires a fresh working-tree selection; it returned a stale-selection error before creating a scan.
+- The repository-local PostToolUse hook could not be trusted through `/hooks` because that UI control is unavailable in this runtime.

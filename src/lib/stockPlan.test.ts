@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { stockPlan } from '../data/stockPlan'
+import { loadMockStockPlan, stockPlan } from '../data/stockPlan'
 import { estimatedValue, finalVesting, formatCurrency, formatDate, formatNumber, hasTransactions, nextVesting, totalsReconcile, vestingPercent } from './stockPlan'
 
 describe('stock plan calculations', () => {
@@ -26,5 +26,8 @@ describe('stock plan calculations', () => {
   })
   it('rejects totals that do not reconcile', () => {
     expect(totalsReconcile({ ...stockPlan, available: 49_999 })).toBe(false)
+  })
+  it('loads the local fictional data through a replaceable adapter', async () => {
+    await expect(loadMockStockPlan()).resolves.toEqual(stockPlan)
   })
 })

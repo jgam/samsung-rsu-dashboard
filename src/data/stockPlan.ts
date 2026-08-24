@@ -3,6 +3,7 @@ export type VestingStatus = 'vested' | 'upcoming'
 export interface VestingEvent { date: string; quantity: number; status: VestingStatus }
 export interface Transaction { date: string; type: string; quantity: number; price: number }
 export interface StockPlan { employee: string; awardId: string; awardType: string; grantDate: string; asOfDate: string; granted: number; vested: number; unvested: number; sold: number; available: number; sharePrice: number; schedule: VestingEvent[]; transactions: Transaction[] }
+export type StockPlanLoader = () => Promise<StockPlan>
 
 // Deliberately fictional, local demonstration data. Replace this module with an API adapter later.
 export const stockPlan: StockPlan = {
@@ -13,3 +14,6 @@ export const stockPlan: StockPlan = {
     { date: '2027-02-20', quantity: 25_000, status: 'upcoming' }, { date: '2028-02-20', quantity: 25_000, status: 'upcoming' },
   ],
 }
+
+// This adapter is deliberately local. An API-backed loader can replace it without changing UI components.
+export const loadMockStockPlan: StockPlanLoader = async () => stockPlan
