@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deep Project Interview"
+  short_description: "Turn ideas into build-ready project briefs"
+  default_prompt: "Use $deep-interview to help me define a project before we build it."

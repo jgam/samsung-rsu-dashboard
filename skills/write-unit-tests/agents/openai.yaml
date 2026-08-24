@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write Unit Tests"
+  short_description: "Write durable tests and enforce coverage"
+  default_prompt: "Use $write-unit-tests to add behavior-focused unit tests, enforce coverage above 90%, and report the completed run."
