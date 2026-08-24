@@ -1,0 +1,4 @@
+import { describe, expect, it } from 'vitest'
+import { award, schedule, transactions } from '../data/equity'
+import { estimatedValue, reconciles, remainingEvents, scheduleTotals } from './equity'
+describe('equity calculations', () => { it('uses the illustrative price consistently', () => { expect(estimatedValue(award.vested, 42.5)).toBe(2125000); expect(estimatedValue(award.unvested, 42.5)).toBe(2125000); expect(estimatedValue(award.granted, 50)).toBe(5000000) }); it('reconciles award totals', () => expect(reconciles()).toBe(true)); it('contains the complete 4-year schedule', () => expect(scheduleTotals(schedule)).toBe(100000)); it('identifies the two future vesting events', () => expect(remainingEvents(schedule).map(event => event.date)).toEqual(['2027-02-20', '2028-02-20'])); it('has no transaction history in the baseline scenario', () => expect(transactions).toEqual([])) })
